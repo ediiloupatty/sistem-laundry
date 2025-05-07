@@ -30,8 +30,8 @@ if(!$order) {
     exit();
 }
 
-// Jika pembayaran sudah lunas atau metode cash, redirect
-if($order['status_pembayaran'] == 'lunas' || $order['metode_pembayaran'] == 'cash') {
+// PERUBAHAN: Hapus kondisi untuk redirect jika cash, hanya redirect jika sudah lunas
+if($order['status_pembayaran'] == 'lunas') {
     header("Location: tracking.php?id=$order_id");
     exit();
 }
@@ -92,6 +92,20 @@ include '../includes/header.php';
 ?>
 
 <style>
+    :root {
+    --primary-color: #1a73e8;
+    --primary-dark: #0d47a1;
+    --secondary-color: #263238;
+    --accent-color: #00c853;
+    --light-gray: #f0f4f8;
+    --mid-gray: #e1e8ed;
+    --dark-gray: #546e7a;
+    --danger: #d32f2f;
+    --success: #00c853;
+    --border-radius: 6px;
+    --box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+    --transition: all 0.25s ease-in-out;
+}
     .payment-container {
         background: white;
         padding: 20px;
@@ -187,6 +201,12 @@ include '../includes/header.php';
         max-width: 200px;
         height: auto;
     }
+    .cash-payment-info {
+        background: #d4edda;
+        padding: 15px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+    }
 </style>
 
 <h1>Pembayaran Pesanan #<?php echo $order_id; ?></h1>
@@ -203,7 +223,18 @@ include '../includes/header.php';
         <p>Status: <strong><?php echo ucfirst($order['status_pembayaran']); ?></strong></p>
     </div>
     
-    <?php if($order['metode_pembayaran'] == 'transfer'): ?>
+    <?php if($order['metode_pembayaran'] == 'cash'): ?>
+        <!-- PERUBAHAN: Tambahkan informasi untuk pembayaran cash -->
+        <div class="cash-payment-info">
+            <h4>Petunjuk Pembayaran Cash:</h4>
+            <ol>
+                <li>Siapkan uang tunai sebesar <?php echo formatRupiah($order['total_harga']); ?></li>
+                <li>Anda dapat mengupload foto/screenshot bukti persiapan pembayaran (opsional)</li>
+                <li>Pembayaran akan dilakukan saat kurir datang mengambil atau mengantarkan laundry</li>
+                <li>Admin akan melakukan verifikasi pembayaran setelah kurir melaporkan penerimaan uang tunai</li>
+            </ol>
+        </div>
+    <?php elseif($order['metode_pembayaran'] == 'transfer'): ?>
         <div class="bank-details">
             <h4>Silakan transfer ke salah satu rekening berikut:</h4>
             
@@ -252,26 +283,63 @@ include '../includes/header.php';
     
     <div class="instructions">
         <h4>Petunjuk Pembayaran:</h4>
-        <ol>
-            <li>Transfer sesuai dengan jumlah yang tertera</li>
-            <li>Simpan bukti pembayaran</li>
-            <li>Upload bukti pembayaran di form di bawah ini</li>
-            <li>Tunggu konfirmasi dari admin (maks. 1x24 jam)</li>
-        </ol>
+        <?php if($order['metode_pembayaran'] == 'cash'): ?>
+            <!-- PERUBAHAN: Instruksi khusus untuk metode cash -->
+            <ol>
+                <li>Siapkan uang tunai sesuai dengan jumlah yang tertera</li>
+                <li>Anda dapat mengupload foto/screenshot sebagai bukti persiapan pembayaran (opsional)</li>
+                <li>Pembayaran akan dilakukan saat kurir datang</li>
+                <li>Tunggu konfirmasi dari admin setelah kurir melaporkan penerimaan pembayaran</li>
+            </ol>
+        <?php else: ?>
+            <ol>
+                <li>Transfer sesuai dengan jumlah yang tertera</li>
+                <li>Simpan bukti pembayaran</li>
+                <li>Upload bukti pembayaran di form di bawah ini</li>
+                <li>Tunggu konfirmasi dari admin (maks. 1x24 jam)</li>
+            </ol>
+        <?php endif; ?>
     </div>
     
     <div class="upload-form">
-        <h4>Upload Bukti Pembayaran</h4>
+        <h4>
+            <?php if($order['metode_pembayaran'] == 'cash'): ?>
+            Upload Bukti Persiapan Pembayaran (Opsional)
+            <?php else: ?>
+            Upload Bukti Pembayaran
+            <?php endif; ?>
+        </h4>
         <form method="POST" action="" enctype="multipart/form-data">
             <div class="form-group">
-                <label>Pilih File Bukti Pembayaran:</label>
-                <input type="file" name="bukti_pembayaran" class="form-control" accept="image/*" required>
+                <label>
+                    <?php if($order['metode_pembayaran'] == 'cash'): ?>
+                    Pilih File Bukti Persiapan Pembayaran:
+                    <?php else: ?>
+                    Pilih File Bukti Pembayaran:
+                    <?php endif; ?>
+                </label>
+                <input type="file" name="bukti_pembayaran" class="form-control" accept="image/*" 
+                       <?php echo ($order['metode_pembayaran'] == 'cash') ? '' : 'required'; ?>>
                 <small>Format: JPG, JPEG, PNG. Maksimal 2MB</small>
             </div>
             
-            <button type="submit" name="upload_bukti" class="btn btn-primary">Upload Bukti Pembayaran</button>
+            <button type="submit" name="upload_bukti" class="btn btn-primary">
+                <?php if($order['metode_pembayaran'] == 'cash'): ?>
+                Upload Bukti
+                <?php else: ?>
+                Upload Bukti Pembayaran
+                <?php endif; ?>
+            </button>
         </form>
     </div>
+    
+    <?php if($order['metode_pembayaran'] == 'cash'): ?>
+    <div class="alternative-action">
+        <a href="tracking.php?id=<?php echo $order_id; ?>" class="btn btn-outline">
+            Lanjutkan Tanpa Upload Bukti
+        </a>
+    </div>
+    <?php endif; ?>
 </div>
 
 <?php include '../includes/footer.php'; ?>

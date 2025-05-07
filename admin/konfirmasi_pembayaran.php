@@ -84,13 +84,15 @@ if (isset($_POST['tolak_pembayaran'])) {
 }
 
 // Query untuk mendapatkan pesanan dengan pembayaran pending
+// PERUBAHAN: Menampilkan semua pembayaran cash dan non-cash yang pending
 $query = "SELECT o.*, c.nama as nama_pelanggan, c.no_hp, 
           p.metode_pembayaran, p.status_pembayaran, p.bukti_pembayaran, p.tgl_pembayaran,
           p.jumlah_bayar
           FROM orders o
           JOIN customers c ON o.customer_id = c.id
           JOIN payments p ON o.id = p.order_id
-          WHERE p.bukti_pembayaran IS NOT NULL AND p.status_pembayaran = 'pending'
+          WHERE (p.bukti_pembayaran IS NOT NULL OR p.metode_pembayaran = 'cash') 
+          AND p.status_pembayaran = 'pending'
           ORDER BY p.tgl_pembayaran DESC";
 $result = mysqli_query($koneksi, $query);
 

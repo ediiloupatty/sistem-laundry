@@ -83,360 +83,595 @@ if(isset($_POST['register'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrasi - Sistem Laundry</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-color: #3498db;
             --primary-dark: #2980b9;
-            --secondary-color: #f8f9fa;
-            --text-color: #333;
-            --text-muted: #6c757d;
-            --border-color: #e0e0e0;
-            --error-color: #e74c3c;
-            --success-color: #2ecc71;
-            --box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            --secondary-color: #2c3e50;
+            --accent-color: #f39c12;
+            --light-gray: #f5f7f9;
+            --mid-gray: #e9ecef;
+            --dark-gray: #6c757d;
+            --danger: #e74c3c;
+            --success: #2ecc71;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            --transition: all 0.3s ease;
         }
-        
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
-        
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f9f9f9;
-            background-image: linear-gradient(to right, #f9f9f9, #f0f2f5);
-            color: var(--text-color);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 30px 15px;
-            position: relative;
+            font-family: 'Poppins', sans-serif;
+            color: var(--secondary-color);
+            line-height: 1.6;
             overflow-x: hidden;
+            background: linear-gradient(135deg, #3498db, #1d6fa5);
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Background Animation */
+        .bg-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .wave {
+            position: absolute;
+            width: 200%;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+            animation: wave-animation 20s linear infinite;
+            bottom: 0;
+        }
+
+        .wave:nth-child(1) {
+            height: 200px;
+            animation: wave-animation 20s linear infinite;
+            opacity: 0.2;
+            bottom: -100px;
         }
         
+        .wave:nth-child(2) {
+            height: 240px;
+            animation: wave-animation 15s linear infinite;
+            opacity: 0.3;
+            bottom: -150px;
+        }
+
+        .wave:nth-child(3) {
+            height: 300px;
+            animation: wave-animation 12s linear infinite;
+            opacity: 0.1;
+            bottom: -200px;
+        }
+
+        .wave:nth-child(4) {
+            height: 180px;
+            animation: wave-animation 16s linear infinite reverse;
+            opacity: 0.4;
+            bottom: -50px;
+        }
+
+        @keyframes wave-animation {
+            0% {
+                transform: translateX(0) scaleY(1);
+            }
+            50% {
+                transform: translateX(-25%) scaleY(1.2);
+            }
+            100% {
+                transform: translateX(-50%) scaleY(1);
+            }
+        }
+
+        /* Bubble animation */
+        .bubble {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            position: absolute;
+            animation: bubble-rise 8s infinite ease-in;
+        }
+
+        @keyframes bubble-rise {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100vh) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
         .register-container {
             width: 100%;
-            max-width: 550px;
-            background: white;
-            padding: 40px 30px;
-            border-radius: 12px;
+            max-width: 700px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
-            transition: transform 0.3s ease;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
-        
-        .register-container:hover {
-            transform: translateY(-5px);
-        }
-        
-        .header-area {
+
+        .header {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 1.8rem;
             text-align: center;
-            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
         }
-        
-        .logo {
-            margin-bottom: 15px;
-            color: var(--primary-color);
-            font-size: 36px;
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            background: linear-gradient(135deg, transparent 50%, rgba(255, 255, 255, 0.95) 50%);
+            z-index: 1;
         }
-        
-        h2 {
-            font-size: 24px;
-            font-weight: 600;
-            color: var(--text-color);
-            margin-bottom: 8px;
+
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
-        
-        .subtitle {
-            color: var(--text-muted);
-            font-size: 14px;
-            margin-bottom: 25px;
+
+        .header-icon {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            animation: float 3s ease-in-out infinite;
         }
-        
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .form-container {
+            padding: 2.5rem 2rem 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--secondary-color);
+        }
+
         .form-row {
             display: flex;
-            gap: 20px;
-            margin-bottom: 0;
+            gap: 1.5rem;
         }
-        
-        .form-group {
-            margin-bottom: 20px;
+
+        .input-group {
             position: relative;
             flex: 1;
         }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: var(--text-color);
-            font-weight: 500;
-            font-size: 14px;
-        }
-        
-        .input-group {
-            position: relative;
-        }
-        
+
         .input-icon {
             position: absolute;
-            left: 12px;
+            left: 1rem;
             top: 50%;
             transform: translateY(-50%);
-            color: var(--text-muted);
+            color: var(--dark-gray);
         }
-        
-        input[type="text"],
-        input[type="password"],
-        input[type="email"],
-        textarea {
+
+        .form-control {
             width: 100%;
-            padding: 12px 12px 12px 40px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 14px;
-            transition: all 0.3s;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            font-size: 1rem;
+            border: 1px solid var(--mid-gray);
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            font-family: 'Poppins', sans-serif;
         }
-        
-        textarea {
-            padding: 12px;
-            height: 100px;
+
+        textarea.form-control {
+            min-height: 100px;
             resize: vertical;
+            padding-top: 2.5rem;
         }
-        
-        input[type="text"]:focus,
-        input[type="password"]:focus,
-        input[type="email"]:focus,
-        textarea:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+
+        .form-control:focus {
             outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.25);
         }
-        
-        button {
+
+        .btn {
+            display: inline-block;
             width: 100%;
-            padding: 14px;
-            background-color: var(--primary-color);
+            padding: 0.85rem 1rem;
+            background: linear-gradient(135deg, #3498db, #2980b9);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 500;
             cursor: pointer;
-            font-size: 16px;
-            font-weight: 500;
-            transition: background-color 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            transition: var(--transition);
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+            position: relative;
+            overflow: hidden;
         }
-        
-        button:hover {
-            background-color: var(--primary-dark);
+
+        .btn:hover {
+            background: linear-gradient(135deg, #2980b9, #1e6091);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(52, 152, 219, 0.4);
         }
-        
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            transition: 0.5s;
+        }
+
+        .btn:active::after {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+            transition: 0s;
+        }
+
         .error {
-            color: var(--error-color);
-            background: rgba(231, 76, 60, 0.1);
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            text-align: center;
-            border-left: 3px solid var(--error-color);
+            background-color: rgba(231, 76, 60, 0.1);
+            color: var(--danger);
+            padding: 0.75rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            border-left: 3px solid var(--danger);
+            animation: shake 0.5s ease-in-out;
         }
-        
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
         .success {
-            color: var(--success-color);
-            background: rgba(46, 204, 113, 0.1);
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            text-align: center;
-            border-left: 3px solid var(--success-color);
+            background-color: rgba(46, 204, 113, 0.1);
+            color: var(--success);
+            padding: 0.75rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            border-left: 3px solid var(--success);
+            animation: pulse 1.5s infinite;
         }
-        
-        .login-link {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 14px;
-            color: var(--text-muted);
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(46, 204, 113, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
         }
-        
-        .login-link a {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 500;
-        }
-        
-        .login-link a:hover {
-            text-decoration: underline;
-        }
-        
+
         .required {
-            color: var(--error-color);
+            color: var(--danger);
             margin-left: 2px;
         }
-        
+
         .progress-container {
             width: 100%;
             height: 4px;
-            background: #eee;
-            margin-bottom: 30px;
-            border-radius: 2px;
+            background-color: rgba(255, 255, 255, 0.3);
+            margin-bottom: 1.5rem;
+            border-radius: 4px;
             overflow: hidden;
+            position: relative;
         }
-        
+
         .progress-bar {
             height: 100%;
             width: 0;
-            border-radius: 2px;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
             transition: width 0.3s ease;
-            background-color: var(--primary-color);
+            border-radius: 4px;
+            position: relative;
         }
-        
+
+        .progress-bar::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, 
+                          rgba(255,255,255,0.1) 25%, 
+                          rgba(255,255,255,0.3) 50%, 
+                          rgba(255,255,255,0.1) 75%);
+            animation: progress-shine 2s infinite linear;
+        }
+
+        @keyframes progress-shine {
+            0% { background-position: -200px 0; }
+            100% { background-position: 200px 0; }
+        }
+
+        .login-link {
+            margin-top: 1.8rem;
+            text-align: center;
+            color: var(--dark-gray);
+            font-size: 0.95rem;
+        }
+
+        .login-link a {
+            color: var(--primary-color);
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .login-link a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: var(--primary-color);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+
+        .login-link a:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
         /* Animation */
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(30px);
             }
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
-        
+
         .register-container {
-            animation: fadeIn 0.6s ease-out forwards;
+            animation: fadeIn 0.8s ease-out forwards;
         }
-        
-        /* Responsive adjustments */
+
+        /* Responsive */
         @media (max-width: 768px) {
             .form-row {
                 flex-direction: column;
-                gap: 0;
+                gap: 1.5rem;
             }
         }
-        
+
         @media (max-width: 480px) {
-            .register-container {
-                padding: 30px 20px;
-                margin: 0;
-                border-radius: 0;
-                box-shadow: none;
+            .container {
+                padding: 1rem;
             }
             
-            body {
-                background: white;
-                padding: 0;
+            .form-container {
+                padding: 1.5rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="register-container">
-        <div class="header-area">
-            <div class="logo">
-                <i class="fas fa-tshirt"></i>
-            </div>
-            <h2>Buat Akun Baru</h2>
-            <p class="subtitle">Daftar sebagai pelanggan untuk menggunakan layanan Laundry kami</p>
-        </div>
-
-        <div class="progress-container">
-            <div class="progress-bar" style="width: 0%;"></div>
-        </div>
-        
-        <?php if($error): ?>
-            <div class="error">
-                <i class="fas fa-exclamation-circle"></i> <?php echo $error; ?>
-            </div>
-        <?php endif; ?>
-        
-        <?php if($success): ?>
-            <div class="success">
-                <i class="fas fa-check-circle"></i> <?php echo $success; ?>
-            </div>
-        <?php endif; ?>
-        
-        <form method="POST" action="" id="registerForm">
-            <div class="form-group">
-                <label>Username <span class="required">*</span></label>
-                <div class="input-group">
-                    <span class="input-icon">
-                        <i class="fas fa-user"></i>
-                    </span>
-                    <input type="text" name="username" placeholder="Masukkan username" required value="<?php echo isset($_POST['username']) ? $_POST['username'] : ''; ?>">
+    <!-- Background Animation -->
+    <div class="bg-animation">
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+    </div>
+    
+    <!-- Bubble Animation -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create bubbles
+            for (let i = 0; i < 12; i++) {
+                createBubble();
+            }
+            
+            function createBubble() {
+                const bubble = document.createElement('div');
+                bubble.classList.add('bubble');
+                
+                // Random position, size and animation duration
+                const size = Math.random() * 30 + 10;
+                const left = Math.random() * 100;
+                const animDuration = Math.random() * 8 + 4;
+                const animDelay = Math.random() * 3;
+                
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                bubble.style.left = `${left}%`;
+                bubble.style.animationDuration = `${animDuration}s`;
+                bubble.style.animationDelay = `${animDelay}s`;
+                
+                document
+                    .querySelector('.bg-animation')
+                    .appendChild(bubble);
+                
+                // Remove bubble after animation completes
+                setTimeout(() => {
+                    bubble.remove();
+                    createBubble();
+                }, (animDuration + animDelay) * 1000);
+            }
+        });
+    </script>
+    
+    <div class="container">
+        <div class="register-container">
+            <div class="header">
+                <div class="header-icon">
+                    <i class="fas fa-tshirt"></i>
                 </div>
+                <h1>Buat Akun Baru</h1>
+                <p>Daftar sebagai pelanggan untuk menggunakan layanan Laundry kami</p>
             </div>
             
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Password <span class="required">*</span></label>
-                    <div class="input-group">
-                        <span class="input-icon">
-                            <i class="fas fa-lock"></i>
-                        </span>
-                        <input type="password" name="password" id="password" placeholder="Minimal 6 karakter" required>
-                    </div>
+            <div class="form-container">
+                <div class="progress-container">
+                    <div class="progress-bar" style="width: 0%;"></div>
                 </div>
                 
-                <div class="form-group">
-                    <label>Konfirmasi Password <span class="required">*</span></label>
-                    <div class="input-group">
-                        <span class="input-icon">
-                            <i class="fas fa-check-circle"></i>
-                        </span>
-                        <input type="password" name="confirm_password" id="confirm_password" placeholder="Masukkan ulang password" required>
+                <?php if($error): ?>
+                    <div class="error">
+                        <i class="fas fa-exclamation-circle"></i> <?php echo $error; ?>
                     </div>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label>Nama Lengkap <span class="required">*</span></label>
-                <div class="input-group">
-                    <span class="input-icon">
-                        <i class="fas fa-id-card"></i>
-                    </span>
-                    <input type="text" name="nama" placeholder="Masukkan nama lengkap anda" required value="<?php echo isset($_POST['nama']) ? $_POST['nama'] : ''; ?>">
-                </div>
-            </div>
-            
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Email</label>
-                    <div class="input-group">
-                        <span class="input-icon">
-                            <i class="fas fa-envelope"></i>
-                        </span>
-                        <input type="email" name="email" placeholder="contoh@email.com" value="<?php echo isset($_POST['email']) ? $_POST['email'] : ''; ?>">
-                    </div>
-                </div>
+                <?php endif; ?>
                 
-                <div class="form-group">
-                    <label>No. HP</label>
-                    <div class="input-group">
-                        <span class="input-icon">
-                            <i class="fas fa-phone"></i>
-                        </span>
-                        <input type="text" name="no_hp" placeholder="08xxxxxxxxxx" value="<?php echo isset($_POST['no_hp']) ? $_POST['no_hp'] : ''; ?>">
+                <?php if($success): ?>
+                    <div class="success">
+                        <i class="fas fa-check-circle"></i> <?php echo $success; ?>
                     </div>
+                <?php endif; ?>
+                
+                <form method="POST" action="" id="registerForm">
+                    <div class="form-group">
+                        <label for="username">Username <span class="required">*</span></label>
+                        <div class="input-group">
+                            <span class="input-icon">
+                                <i class="fas fa-user"></i>
+                            </span>
+                            <input type="text" id="username" name="username" class="form-control" placeholder="Masukkan username" required value="<?php echo isset($_POST['username']) ? $_POST['username'] : ''; ?>">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="password">Password <span class="required">*</span></label>
+                            <div class="input-group">
+                                <span class="input-icon">
+                                    <i class="fas fa-lock"></i>
+                                </span>
+                                <input type="password" id="password" name="password" class="form-control" placeholder="Minimal 6 karakter" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="confirm_password">Konfirmasi Password <span class="required">*</span></label>
+                            <div class="input-group">
+                                <span class="input-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </span>
+                                <input type="password" id="confirm_password" name="confirm_password" class="form-control" placeholder="Masukkan ulang password" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="nama">Nama Lengkap <span class="required">*</span></label>
+                        <div class="input-group">
+                            <span class="input-icon">
+                                <i class="fas fa-id-card"></i>
+                            </span>
+                            <input type="text" id="nama" name="nama" class="form-control" placeholder="Masukkan nama lengkap anda" required value="<?php echo isset($_POST['nama']) ? $_POST['nama'] : ''; ?>">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <div class="input-group">
+                                <span class="input-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </span>
+                                <input type="email" id="email" name="email" class="form-control" placeholder="contoh@email.com" value="<?php echo isset($_POST['email']) ? $_POST['email'] : ''; ?>">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="no_hp">No. HP</label>
+                            <div class="input-group">
+                                <span class="input-icon">
+                                    <i class="fas fa-phone"></i>
+                                </span>
+                                <input type="text" id="no_hp" name="no_hp" class="form-control" placeholder="08xxxxxxxxxx" value="<?php echo isset($_POST['no_hp']) ? $_POST['no_hp'] : ''; ?>">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="alamat">Alamat</label>
+                        <div class="input-group">
+                            <span class="input-icon" style="top: 1.5rem;">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </span>
+                            <textarea id="alamat" name="alamat" class="form-control" placeholder="Masukkan alamat lengkap anda"><?php echo isset($_POST['alamat']) ? $_POST['alamat'] : ''; ?></textarea>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" name="register" class="btn">
+                        <i class="fas fa-user-plus"></i> DAFTAR SEKARANG
+                    </button>
+                </form>
+                
+                <div class="login-link">
+                    Sudah punya akun? <a href="login.php">LOGIN DI SINI</a>
                 </div>
             </div>
-            
-            <div class="form-group">
-                <label>Alamat</label>
-                <textarea name="alamat" placeholder="Masukkan alamat lengkap anda"><?php echo isset($_POST['alamat']) ? $_POST['alamat'] : ''; ?></textarea>
-            </div>
-            
-            <button type="submit" name="register">
-                <i class="fas fa-user-plus"></i> Daftar Sekarang
-            </button>
-        </form>
-        
-        <div class="login-link">
-            Sudah punya akun? <a href="login.php">Login di sini</a>
         </div>
     </div>
 
@@ -457,6 +692,15 @@ if(isset($_POST['register'])) {
                 
                 const progress = (filledFields / formElements.length) * 100;
                 progressBar.style.width = progress + '%';
+                
+                // Update color based on progress
+                if (progress < 33) {
+                    progressBar.style.background = 'linear-gradient(90deg, #e74c3c, #f39c12)';
+                } else if (progress < 66) {
+                    progressBar.style.background = 'linear-gradient(90deg, #f39c12, #3498db)';
+                } else {
+                    progressBar.style.background = 'linear-gradient(90deg, #3498db, #2ecc71)';
+                }
             }
             
             // Update awal
@@ -481,6 +725,17 @@ if(isset($_POST['register'])) {
             
             password.addEventListener('change', validatePassword);
             confirmPassword.addEventListener('keyup', validatePassword);
+            
+            // Add slight ripple effect on inputs
+            formElements.forEach(element => {
+                element.addEventListener('focus', function() {
+                    this.classList.add('focus-ripple');
+                });
+                
+                element.addEventListener('blur', function() {
+                    this.classList.remove('focus-ripple');
+                });
+            });
         });
     </script>
 </body>

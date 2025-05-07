@@ -74,13 +74,35 @@ $items_result = mysqli_query($koneksi, $items_query);
             <div class="detail-value"><?php echo strtoupper($order['metode_pembayaran']); ?></div>
         </div>
         
+        <?php if($order['tgl_pembayaran']): ?>
         <div class="detail-item">
             <div class="detail-label">Tanggal Upload:</div>
             <div class="detail-value"><?php echo formatTanggal($order['tgl_pembayaran']); ?></div>
         </div>
+        <?php endif; ?>
     </div>
 </div>
 
+<?php if($order['metode_pembayaran'] == 'cash'): ?>
+<!-- Tampilan spesial untuk pembayaran cash -->
+<div class="cash-payment-container">
+    <h4>Pembayaran Cash</h4>
+    <p>Pelanggan memilih metode pembayaran tunai. Pelanggan akan membayar langsung ke kurir saat pengantaran/pengambilan.</p>
+    
+    <?php if($order['bukti_pembayaran']): ?>
+    <div class="bukti-container">
+        <h4>Bukti Persiapan Pembayaran:</h4>
+        <img src="../uploads/bukti_pembayaran/<?php echo $order['bukti_pembayaran']; ?>" 
+             class="bukti-image" 
+             alt="Bukti Persiapan Pembayaran"
+             onclick="window.open(this.src, '_blank')">
+    </div>
+    <?php else: ?>
+    <p>Pelanggan belum mengunggah bukti persiapan pembayaran.</p>
+    <?php endif; ?>
+</div>
+<?php else: ?>
+<!-- Tampilan normal untuk pembayaran non-cash -->
 <?php if($order['bukti_pembayaran']): ?>
 <div class="bukti-container">
     <h4>Bukti Pembayaran:</h4>
@@ -89,6 +111,7 @@ $items_result = mysqli_query($koneksi, $items_query);
          alt="Bukti Pembayaran"
          onclick="window.open(this.src, '_blank')">
 </div>
+<?php endif; ?>
 <?php endif; ?>
 
 <h4 style="margin-top: 20px;">Detail Pesanan:</h4>
@@ -115,7 +138,11 @@ $items_result = mysqli_query($koneksi, $items_query);
     <form action="konfirmasi_pembayaran.php" method="POST" style="display: inline-block; margin-right: 10px;">
         <input type="hidden" name="payment_id" value="<?php echo $order['payment_id']; ?>">
         <button type="submit" name="konfirmasi_pembayaran" class="btn btn-success">
+            <?php if($order['metode_pembayaran'] == 'cash'): ?>
+            Konfirmasi Pembayaran Cash
+            <?php else: ?>
             Konfirmasi Lunas
+            <?php endif; ?>
         </button>
     </form>
     

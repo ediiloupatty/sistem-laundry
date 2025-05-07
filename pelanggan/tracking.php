@@ -55,19 +55,38 @@ include '../includes/header.php';
 ?>
 
 <style>
+    :root {
+        --primary-color: #1a73e8;
+        --primary-dark: #0d47a1;
+        --secondary-color: #263238;
+        --accent-color: #00c853;
+        --light-gray: #f0f4f8;
+        --mid-gray: #e1e8ed;
+        --dark-gray: #546e7a;
+        --danger: #d32f2f;
+        --success: #00c853;
+        --border-radius: 6px;
+        --box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+        --transition: all 0.25s ease-in-out;
+    }
+
     .tracking-container {
         background: white;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        margin-bottom: 20px;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
     }
+
+    /* Timeline status pesanan yang ditingkatkan */
     .status-timeline {
         display: flex;
         justify-content: space-between;
-        margin: 30px 0;
+        margin: 40px 0;
         position: relative;
+        padding: 0 20px;
     }
+
     .status-timeline::before {
         content: '';
         position: absolute;
@@ -75,15 +94,17 @@ include '../includes/header.php';
         left: 0;
         width: 100%;
         height: 4px;
-        background: #eee;
+        background: linear-gradient(to right, #eee, #eee);
         z-index: 1;
     }
+
     .status-item {
         text-align: center;
         position: relative;
         z-index: 2;
         flex: 1;
     }
+
     .status-circle {
         width: 30px;
         height: 30px;
@@ -95,97 +116,316 @@ include '../includes/header.php';
         justify-content: center;
         font-weight: bold;
         color: white;
+        transition: all 0.3s ease;
     }
+
     .status-item.active .status-circle {
-        background: #28a745;
+        background: linear-gradient(to right, #28a745, #20c997);
+        box-shadow: 0 0 10px rgba(40, 167, 69, 0.5);
     }
+
     .status-item.current .status-circle {
-        background: #007bff;
+        background: linear-gradient(to right, #007bff, #17a2b8);
+        box-shadow: 0 0 12px rgba(0, 123, 255, 0.6);
         animation: pulse 1.5s infinite;
     }
+
     @keyframes pulse {
         0% { transform: scale(1); }
         50% { transform: scale(1.1); }
         100% { transform: scale(1); }
     }
+
     .status-name {
-        font-size: 12px;
-        color: #666;
+        font-size: 13px;
+        font-weight: 500;
+        color: #555;
+        margin-top: 5px;
     }
+
+    /* Grid untuk detail pesanan */
     .detail-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
+        gap: 30px;
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 20px 0;
+        box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
     }
+
     .detail-item {
-        margin-bottom: 15px;
+        margin-bottom: 18px;
+        position: relative;
+        padding-left: 5px;
     }
+
     .detail-label {
-        font-weight: bold;
-        color: #666;
-        margin-bottom: 5px;
+        font-weight: 600;
+        color: #444;
+        margin-bottom: 8px;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
+
     .detail-value {
         color: #333;
+        font-size: 16px;
+        padding: 8px 0;
+        border-bottom: 1px dashed #ddd;
     }
+
+    /* Badge untuk status */
     .status-badge {
-        padding: 5px 10px;
-        border-radius: 15px;
+        padding: 6px 12px;
+        border-radius: 20px;
         font-size: 12px;
-        font-weight: bold;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
-    .status-menunggu_konfirmasi { background-color: #ffc107; color: #000; }
-    .status-diproses { background-color: #17a2b8; color: #fff; }
-    .status-selesai { background-color: #28a745; color: #fff; }
-    .status-siap_diantar { background-color: #6f42c1; color: #fff; }
-    .status-dibatalkan { background-color: #dc3545; color: #fff; }
-    .status-pending { background-color: #ffc107; color: #000; }
-    .status-lunas { background-color: #28a745; color: #fff; }
-    .payment-info {
-        background: #f8f9fa;
-        padding: 15px;
+
+    .status-menunggu_konfirmasi { 
+        background: linear-gradient(to right, #ffc107, #ffcf40);
+        color: #000; 
+    }
+
+    .status-diproses { 
+        background: linear-gradient(to right, #17a2b8, #20c997);
+        color: #fff; 
+    }
+
+    .status-selesai { 
+        background: linear-gradient(to right, #28a745, #20c997);
+        color: #fff; 
+    }
+
+    .status-siap_diantar { 
+        background: linear-gradient(to right, #6f42c1, #6610f2);
+        color: #fff; 
+    }
+
+    .status-dibatalkan { 
+        background: linear-gradient(to right, #dc3545, #c82333);
+        color: #fff; 
+    }
+
+    .status-pending { 
+        background: linear-gradient(to right, #ffc107, #ffcf40);
+        color: #000; 
+    }
+
+    .status-lunas { 
+        background: linear-gradient(to right, #28a745, #20c997);
+        color: #fff; 
+    }
+
+    /* Tampilan tabel item yang ditingkatkan */
+    .item-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        margin: 25px 0;
         border-radius: 8px;
-        margin-top: 20px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
-    .payment-alert {
-        background: #fff3cd;
-        padding: 15px;
-        border-radius: 4px;
-        margin-bottom: 20px;
-        border: 1px solid #ffeeba;
+
+    .item-table thead th {
+        background-color: #f8f9fa;
+        color: #495057;
+        text-align: left;
+        padding: 12px 15px;
+        border-bottom: 2px solid #dee2e6;
+        font-weight: 600;
     }
+
+    .item-table tbody td {
+        padding: 12px 15px;
+        border-bottom: 1px solid #dee2e6;
+        color: #212529;
+    }
+
+    .item-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .item-table tbody tr:hover {
+        background-color: #f2f7ff;
+    }
+
+    /* Informasi pembayaran yang lebih menarik */
+    .payment-info {
+        background: linear-gradient(to right bottom, #f8f9fa, #e9ecef);
+        padding: 25px;
+        border-radius: 12px;
+        margin-top: 30px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        border-left: 4px solid #007bff;
+    }
+
+    .payment-info h3 {
+        color: #343a40;
+        margin-bottom: 15px;
+        font-weight: 600;
+        font-size: 18px;
+        position: relative;
+        padding-bottom: 10px;
+    }
+
+    .payment-info h3:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 50px;
+        height: 3px;
+        background: #007bff;
+    }
+
+    .payment-info p {
+        margin: 10px 0;
+        color: #495057;
+        line-height: 1.6;
+    }
+
+    .payment-info strong {
+        color: #212529;
+    }
+
+    /* Peningkatan tampilan tombol */
     .btn-payment {
         display: inline-block;
-        padding: 8px 15px;
-        background-color: #28a745;
+        padding: 10px 20px;
+        background: linear-gradient(to right, #28a745, #20c997);
         color: white;
         text-decoration: none;
-        border-radius: 4px;
-        margin-top: 10px;
+        border-radius: 50px;
+        margin-top: 20px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(40, 167, 69, 0.3);
+        border: none;
     }
+
     .btn-payment:hover {
-        background-color: #218838;
+        background: linear-gradient(to right, #218838, #1e9070);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 8px rgba(40, 167, 69, 0.4);
+        color: white;
+        text-decoration: none;
     }
+
     .back-button {
         display: inline-block;
-        padding: 8px 15px;
-        background-color: #6c757d;
+        padding: 8px 18px;
+        background: linear-gradient(to right, #6c757d, #5a6268);
         color: white;
         text-decoration: none;
-        border-radius: 4px;
-        margin-bottom: 20px;
+        border-radius: 50px;
+        margin-bottom: 25px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(108, 117, 125, 0.2);
     }
+
     .back-button:hover {
-        background-color: #5a6268;
+        background: linear-gradient(to right, #5a6268, #4e555b);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px rgba(108, 117, 125, 0.3);
+        color: white;
+        text-decoration: none;
     }
+
+    /* Tampilan bukti pembayaran yang ditingkatkan */
     .bukti-container {
-        margin-top: 10px;
+        margin-top: 20px;
+        background-color: #fff;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 0 5px rgba(0,0,0,0.1);
     }
+
     .bukti-image {
-        max-width: 200px;
+        max-width: 250px;
         cursor: pointer;
-        border: 1px solid #ddd;
-        border-radius: 4px;
+        border: none;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .bukti-image:hover {
+        transform: scale(1.02);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    /* Peringatan pembayaran yang lebih menarik */
+    .payment-alert {
+        background: linear-gradient(to right bottom, #fff9db, #fff3cd);
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 25px;
+        border-left: 4px solid #ffc107;
+        box-shadow: 0 2px 8px rgba(255, 193, 7, 0.2);
+    }
+
+    .payment-alert strong {
+        display: block;
+        margin-bottom: 8px;
+        color: #856404;
+    }
+
+    /* Styling untuk alert success */
+    .alert-success {
+        background: linear-gradient(to right bottom, #d4edda, #c3e6cb);
+        color: #155724;
+        padding: 15px 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        border-left: 4px solid #28a745;
+        box-shadow: 0 2px 8px rgba(40, 167, 69, 0.2);
+    }
+
+    /* Judul dan subtitel */
+    h1 {
+        color: #343a40;
+        margin-bottom: 25px;
+        font-weight: 700;
+        position: relative;
+        padding-bottom: 10px;
+    }
+
+    h1:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 80px;
+        height: 4px;
+        background: linear-gradient(to right, #007bff, #6610f2);
+    }
+
+    h2 {
+        color: #343a40;
+        margin: 25px 0 20px;
+        font-weight: 600;
+        font-size: 22px;
+    }
+
+    h3 {
+        color: #495057;
+        margin: 20px 0 15px;
+        font-weight: 600;
+        font-size: 18px;
+    }
+
+    /* Transisi dan animasi */
+    * {
+        transition: color 0.3s ease, background-color 0.3s ease;
     }
 </style>
 
