@@ -115,7 +115,7 @@ include '../includes/header.php';
     }
 
     body {
-        font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        font-family: 'Nunito', 'Segoe UI', Arial, sans-serif;
         line-height: 1.6;
         color: #333;
         background-color: #f8f9fa;
@@ -588,7 +588,7 @@ include '../includes/header.php';
             <div class="form-group">
                 <label>Berat (kg) <span class="required">*</span></label>
                 <input type="number" name="berat" id="berat" class="form-control" step="0.1" min="0.1" required>
-                <small>Minimal 0.1 kg</small>
+                <small>Minimal 1 kg</small>
             </div>
         </div>
         

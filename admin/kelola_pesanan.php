@@ -95,19 +95,28 @@ include '../includes/header.php';
 ?>
 
 <style>
+    /* Base styles */
     .container {
         background: white;
         padding: 20px;
         border-radius: 8px;
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         margin-bottom: 20px;
+        width: 100%;
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+        box-sizing: border-box;
     }
     .order-header {
         display: flex;
         justify-content: space-between;
+        align-items: center;
         border-bottom: 1px solid #ddd;
         padding-bottom: 15px;
         margin-bottom: 15px;
+        flex-wrap: wrap;
+        gap: 10px;
     }
     .order-detail {
         margin-bottom: 20px;
@@ -161,6 +170,8 @@ include '../includes/header.php';
         text-decoration: none;
         display: inline-block;
         margin-right: 5px;
+        margin-bottom: 5px;
+        text-align: center;
     }
     .btn-primary {
         background-color: #007bff;
@@ -187,10 +198,17 @@ include '../includes/header.php';
         padding: 8px;
         border: 1px solid #ddd;
         border-radius: 4px;
+        box-sizing: border-box;
+    }
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin-bottom: 15px;
     }
     table {
         width: 100%;
         border-collapse: collapse;
+        min-width: 600px; /* Minimum width to ensure readability */
     }
     th, td {
         padding: 10px;
@@ -217,9 +235,65 @@ include '../includes/header.php';
         grid-template-columns: 1fr 1fr;
         gap: 20px;
     }
+    
+    /* Action buttons container */
+    .action-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    /* Responsive styles */
     @media (max-width: 768px) {
+        .container {
+            padding: 15px;
+            border-radius: 0;
+            box-shadow: none;
+        }
         .col-2 {
             grid-template-columns: 1fr;
+        }
+        .order-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        h1 {
+            font-size: 1.5rem;
+            margin-top: 0;
+        }
+        .status-badge {
+            margin-top: 10px;
+        }
+        .btn {
+            width: 100%;
+            margin-right: 0;
+        }
+        th, td {
+            padding: 8px 5px;
+            font-size: 0.9rem;
+        }
+        .table-responsive {
+            margin-left: -15px;
+            margin-right: -15px;
+            padding: 0 15px;
+            width: calc(100% + 30px);
+        }
+    }
+    
+    /* For very small screens */
+    @media (max-width: 480px) {
+        .container {
+            padding: 10px;
+        }
+        th, td {
+            padding: 6px 3px;
+            font-size: 0.8rem;
+        }
+        .table-responsive {
+            margin-left: -10px;
+            margin-right: -10px;
+            padding: 0 10px;
+            width: calc(100% + 20px);
         }
     }
 </style>
@@ -320,37 +394,39 @@ include '../includes/header.php';
 
     <div class="order-detail">
         <h3>Detail Item</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Layanan</th>
-                    <th>Jenis Pakaian</th>
-                    <th>Jumlah</th>
-                    <th>Berat (kg)</th>
-                    <th>Harga</th>
-                    <th>Subtotal</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while($item = mysqli_fetch_assoc($result_items)): ?>
-                <tr>
-                    <td><?php echo $item['nama_layanan']; ?></td>
-                    <td><?php echo $item['jenis_pakaian']; ?></td>
-                    <td><?php echo $item['jumlah']; ?></td>
-                    <td><?php echo $item['berat']; ?> kg</td>
-                    <td><?php echo formatRupiah($item['harga']); ?></td>
-                    <td><?php echo formatRupiah($item['subtotal']); ?></td>
-                </tr>
-                <?php endwhile; ?>
-                <tr>
-                    <td colspan="5" style="text-align: right;"><strong>Total</strong></td>
-                    <td><strong><?php echo formatRupiah($order['total_harga']); ?></strong></td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Layanan</th>
+                        <th>Jenis Pakaian</th>
+                        <th>Jumlah</th>
+                        <th>Berat (kg)</th>
+                        <th>Harga</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while($item = mysqli_fetch_assoc($result_items)): ?>
+                    <tr>
+                        <td><?php echo $item['nama_layanan']; ?></td>
+                        <td><?php echo $item['jenis_pakaian']; ?></td>
+                        <td><?php echo $item['jumlah']; ?></td>
+                        <td><?php echo $item['berat']; ?> kg</td>
+                        <td><?php echo formatRupiah($item['harga']); ?></td>
+                        <td><?php echo formatRupiah($item['subtotal']); ?></td>
+                    </tr>
+                    <?php endwhile; ?>
+                    <tr>
+                        <td colspan="5" style="text-align: right;"><strong>Total</strong></td>
+                        <td><strong><?php echo formatRupiah($order['total_harga']); ?></strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
-    <div style="margin-top: 20px;">
+    <div class="action-buttons">
         <a href="dashboard.php" class="btn btn-primary">Kembali ke Dashboard</a>
         <a href="cetak_invoice.php?id=<?php echo $order_id; ?>" target="_blank" class="btn btn-success">Cetak Invoice</a>
     </div>

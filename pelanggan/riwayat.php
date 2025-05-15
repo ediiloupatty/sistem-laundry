@@ -52,29 +52,28 @@ $result = mysqli_query($koneksi, $query);
 
 include '../includes/header.php';
 ?>
-```css
 <style>
 :root {
-    --primary-color: #1a73e8;
-    --primary-dark: #0d47a1;
-    --secondary-color: #263238;
-    --accent-color: #00c853;
-    --light-gray: #f0f4f8;
-    --mid-gray: #e1e8ed;
-    --dark-gray: #546e7a;
-    --danger: #d32f2f;
-    --success: #00c853;
-    --border-radius: 6px;
-    --box-shadow: 0 6px 16px rgba(0,0,0,0.1);
-    --transition: all 0.25s ease-in-out;
-}
+        --primary-color: #1a73e8;
+        --primary-dark: #0d47a1;
+        --secondary-color: #263238;
+        --accent-color: #00c853;
+        --light-gray: #f0f4f8;
+        --mid-gray: #e1e8ed;
+        --dark-gray: #546e7a;
+        --danger: #d32f2f;
+        --success: #00c853;
+        --border-radius: 6px;
+        --box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+        --transition: all 0.25s ease-in-out;
+    }
 
-body {
-    font-family: var(--font-family);
-    line-height: 1.5;
-    color: #5a5c69;
-    background-color: var(--light-gray);
-}
+    body {
+        font-family: 'Nunito', 'Segoe UI', Arial, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background-color: #f8f9fa;
+    }
 
 h1 {
     font-size: 1.8rem;
@@ -519,24 +518,8 @@ $stat_result = mysqli_query($koneksi, $stat_query);
 $stats = mysqli_fetch_assoc($stat_result);
 ?>
 
-<div class="stat-box">
-    <div class="stat-card">
-        <div class="stat-value"><?php echo $stats['total_pesanan']; ?></div>
-        <div class="stat-label">Total Pesanan</div>
-    </div>
-    <div class="stat-card">
-        <div class="stat-value"><?php echo $stats['pesanan_selesai']; ?></div>
-        <div class="stat-label">Pesanan Selesai</div>
-    </div>
-    <div class="stat-card">
-        <div class="stat-value"><?php echo formatRupiah($stats['total_pengeluaran']); ?></div>
-        <div class="stat-label">Total Pengeluaran</div>
-    </div>
-</div>
-
 <!-- Filter -->
 <div class="container mt-4">
-    <h1>Riwayat Pesanan</h1>
 
     <?php if(isset($_SESSION['success'])): ?>
         <div class="alert alert-success">

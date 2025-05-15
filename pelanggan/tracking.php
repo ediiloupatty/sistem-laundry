@@ -70,21 +70,69 @@ include '../includes/header.php';
         --transition: all 0.25s ease-in-out;
     }
 
-    .tracking-container {
-        background: white;
-        padding: 30px;
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        margin-bottom: 30px;
+    /* Responsive container */
+    .container {
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
     }
 
-    /* Timeline status pesanan yang ditingkatkan */
+    .tracking-container {
+        background: white;
+        padding: 15px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    /* Mobile-friendly typography */
+    h1 {
+        color: #343a40;
+        margin-bottom: 20px;
+        font-weight: 700;
+        position: relative;
+        padding-bottom: 10px;
+        font-size: 24px;
+    }
+
+    h1:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(to right, #007bff, #6610f2);
+    }
+
+    h2 {
+        color: #343a40;
+        margin: 20px 0 15px;
+        font-weight: 600;
+        font-size: 20px;
+    }
+
+    h3 {
+        color: #495057;
+        margin: 15px 0 10px;
+        font-weight: 600;
+        font-size: 16px;
+    }
+
+    /* Improved mobile timeline */
     .status-timeline {
         display: flex;
         justify-content: space-between;
-        margin: 40px 0;
+        margin: 30px 0;
         position: relative;
-        padding: 0 20px;
+        padding: 0;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 10px; /* Space for scrollbar */
     }
 
     .status-timeline::before {
@@ -93,8 +141,8 @@ include '../includes/header.php';
         top: 15px;
         left: 0;
         width: 100%;
-        height: 4px;
-        background: linear-gradient(to right, #eee, #eee);
+        height: 3px;
+        background: #eee;
         z-index: 1;
     }
 
@@ -102,15 +150,17 @@ include '../includes/header.php';
         text-align: center;
         position: relative;
         z-index: 2;
-        flex: 1;
+        flex: 0 0 auto;
+        min-width: 80px;
+        margin: 0 10px;
     }
 
     .status-circle {
-        width: 30px;
-        height: 30px;
+        width: 28px;
+        height: 28px;
         border-radius: 50%;
         background: #eee;
-        margin: 0 auto 10px;
+        margin: 0 auto 8px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -121,12 +171,12 @@ include '../includes/header.php';
 
     .status-item.active .status-circle {
         background: linear-gradient(to right, #28a745, #20c997);
-        box-shadow: 0 0 10px rgba(40, 167, 69, 0.5);
+        box-shadow: 0 0 8px rgba(40, 167, 69, 0.5);
     }
 
     .status-item.current .status-circle {
         background: linear-gradient(to right, #007bff, #17a2b8);
-        box-shadow: 0 0 12px rgba(0, 123, 255, 0.6);
+        box-shadow: 0 0 10px rgba(0, 123, 255, 0.6);
         animation: pulse 1.5s infinite;
     }
 
@@ -137,55 +187,66 @@ include '../includes/header.php';
     }
 
     .status-name {
-        font-size: 13px;
+        font-size: 12px;
         font-weight: 500;
         color: #555;
         margin-top: 5px;
     }
 
-    /* Grid untuk detail pesanan */
+    /* Mobile-friendly grid */
     .detail-grid {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 30px;
+        grid-template-columns: 1fr;
+        gap: 15px;
         background-color: #f9f9f9;
-        padding: 20px;
+        padding: 15px;
         border-radius: 8px;
-        margin: 20px 0;
+        margin: 15px 0;
         box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
     }
 
+    @media (min-width: 768px) {
+        .detail-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            padding: 20px;
+        }
+    }
+
     .detail-item {
-        margin-bottom: 18px;
+        margin-bottom: 15px;
         position: relative;
-        padding-left: 5px;
+        padding-left: 3px;
     }
 
     .detail-label {
         font-weight: 600;
         color: #444;
-        margin-bottom: 8px;
-        font-size: 14px;
+        margin-bottom: 6px;
+        font-size: 13px;
         text-transform: uppercase;
         letter-spacing: 0.5px;
     }
 
     .detail-value {
         color: #333;
-        font-size: 16px;
-        padding: 8px 0;
+        font-size: 15px;
+        padding: 6px 0;
         border-bottom: 1px dashed #ddd;
+        word-break: break-word;
     }
 
-    /* Badge untuk status */
+    /* Responsive badges */
     .status-badge {
-        padding: 6px 12px;
+        padding: 4px 10px;
         border-radius: 20px;
-        font-size: 12px;
+        font-size: 11px;
         font-weight: 600;
         letter-spacing: 0.5px;
         text-transform: uppercase;
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        display: inline-block;
+        margin-top: 2px;
     }
 
     .status-menunggu_konfirmasi { 
@@ -223,12 +284,20 @@ include '../includes/header.php';
         color: #fff; 
     }
 
-    /* Tampilan tabel item yang ditingkatkan */
+    /* Mobile-optimized tables */
+    .responsive-table {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin-bottom: 15px;
+    }
+
     .item-table {
         width: 100%;
+        min-width: 500px; /* Ensure minimum width for scrolling */
         border-collapse: separate;
         border-spacing: 0;
-        margin: 25px 0;
+        margin: 15px 0;
         border-radius: 8px;
         overflow: hidden;
         box-shadow: 0 2px 8px rgba(0,0,0,0.1);
@@ -238,15 +307,17 @@ include '../includes/header.php';
         background-color: #f8f9fa;
         color: #495057;
         text-align: left;
-        padding: 12px 15px;
+        padding: 10px 12px;
         border-bottom: 2px solid #dee2e6;
         font-weight: 600;
+        font-size: 13px;
     }
 
     .item-table tbody td {
-        padding: 12px 15px;
+        padding: 10px 12px;
         border-bottom: 1px solid #dee2e6;
         color: #212529;
+        font-size: 13px;
     }
 
     .item-table tbody tr:last-child td {
@@ -257,23 +328,66 @@ include '../includes/header.php';
         background-color: #f2f7ff;
     }
 
-    /* Informasi pembayaran yang lebih menarik */
+    /* Card layout for mobile order listing */
+    .order-card {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        padding: 12px;
+        margin-bottom: 15px;
+        border-left: 3px solid #007bff;
+    }
+
+    .order-card-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .order-card-id {
+        font-weight: 600;
+        color: #333;
+    }
+
+    .order-card-date {
+        color: #666;
+        font-size: 13px;
+    }
+
+    .order-card-content {
+        margin-bottom: 10px;
+    }
+
+    .order-card-content p {
+        margin: 5px 0;
+        font-size: 14px;
+    }
+
+    .order-card-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    /* Mobile-friendly payment info */
     .payment-info {
         background: linear-gradient(to right bottom, #f8f9fa, #e9ecef);
-        padding: 25px;
+        padding: 15px;
         border-radius: 12px;
-        margin-top: 30px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        margin-top: 20px;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.05);
         border-left: 4px solid #007bff;
     }
 
     .payment-info h3 {
         color: #343a40;
-        margin-bottom: 15px;
+        margin-bottom: 12px;
         font-weight: 600;
-        font-size: 18px;
+        font-size: 16px;
         position: relative;
-        padding-bottom: 10px;
+        padding-bottom: 8px;
     }
 
     .payment-info h3:after {
@@ -281,349 +395,346 @@ include '../includes/header.php';
         position: absolute;
         left: 0;
         bottom: 0;
-        width: 50px;
+        width: 40px;
         height: 3px;
         background: #007bff;
     }
 
     .payment-info p {
-        margin: 10px 0;
+        margin: 8px 0;
         color: #495057;
-        line-height: 1.6;
+        line-height: 1.5;
+        font-size: 14px;
     }
 
-    .payment-info strong {
-        color: #212529;
-    }
-
-    /* Peningkatan tampilan tombol */
-    .btn-payment {
-        display: inline-block;
-        padding: 10px 20px;
-        background: linear-gradient(to right, #28a745, #20c997);
-        color: white;
-        text-decoration: none;
-        border-radius: 50px;
-        margin-top: 20px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 6px rgba(40, 167, 69, 0.3);
-        border: none;
-    }
-
-    .btn-payment:hover {
-        background: linear-gradient(to right, #218838, #1e9070);
-        transform: translateY(-2px);
-        box-shadow: 0 6px 8px rgba(40, 167, 69, 0.4);
-        color: white;
-        text-decoration: none;
-    }
-
+    /* Optimized buttons */
     .back-button {
         display: inline-block;
-        padding: 8px 18px;
+        padding: 8px 16px;
         background: linear-gradient(to right, #6c757d, #5a6268);
         color: white;
         text-decoration: none;
         border-radius: 50px;
-        margin-bottom: 25px;
+        margin-bottom: 15px;
         font-weight: 500;
         transition: all 0.3s ease;
         box-shadow: 0 2px 4px rgba(108, 117, 125, 0.2);
+        font-size: 13px;
     }
 
     .back-button:hover {
         background: linear-gradient(to right, #5a6268, #4e555b);
-        transform: translateY(-1px);
-        box-shadow: 0 4px 6px rgba(108, 117, 125, 0.3);
         color: white;
         text-decoration: none;
     }
 
-    /* Tampilan bukti pembayaran yang ditingkatkan */
-    .bukti-container {
-        margin-top: 20px;
-        background-color: #fff;
+    .btn-payment {
+        display: inline-block;
+        padding: 8px 18px;
+        background: linear-gradient(to right, #28a745, #20c997);
+        color: white;
+        text-decoration: none;
+        border-radius: 50px;
+        margin-top: 15px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 3px 5px rgba(40, 167, 69, 0.3);
+        border: none;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .btn-payment:hover {
+        background: linear-gradient(to right, #218838, #1e9070);
+        color: white;
+        text-decoration: none;
+    }
+
+    /* Mobile-friendly alerts */
+    .payment-alert {
+        background: linear-gradient(to right bottom, #fff9db, #fff3cd);
         padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        border-left: 4px solid #ffc107;
+        box-shadow: 0 2px 8px rgba(255, 193, 7, 0.2);
+        font-size: 14px;
+    }
+
+    .payment-alert strong {
+        display: block;
+        margin-bottom: 6px;
+        color: #856404;
+    }
+
+    .alert-success {
+        background: linear-gradient(to right bottom, #d4edda, #c3e6cb);
+        color: #155724;
+        padding: 12px 15px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        border-left: 4px solid #28a745;
+        box-shadow: 0 2px 8px rgba(40, 167, 69, 0.2);
+        font-size: 14px;
+    }
+
+    /* Bukti pembayaran mobile */
+    .bukti-container {
+        margin-top: 15px;
+        background-color: #fff;
+        padding: 12px;
         border-radius: 8px;
         box-shadow: 0 0 5px rgba(0,0,0,0.1);
     }
 
     .bukti-image {
-        max-width: 250px;
+        max-width: 100%;
+        height: auto;
         cursor: pointer;
         border: none;
-        border-radius: 8px;
+        border-radius: 6px;
         transition: all 0.3s ease;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
 
-    .bukti-image:hover {
-        transform: scale(1.02);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    /* Action buttons */
+    .btn-action {
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-size: 13px;
+        font-weight: 500;
+        text-decoration: none;
+        display: inline-block;
+        margin: 0 3px;
     }
 
-    /* Peringatan pembayaran yang lebih menarik */
-    .payment-alert {
-        background: linear-gradient(to right bottom, #fff9db, #fff3cd);
-        padding: 20px;
-        border-radius: 8px;
-        margin-bottom: 25px;
-        border-left: 4px solid #ffc107;
-        box-shadow: 0 2px 8px rgba(255, 193, 7, 0.2);
+    .btn-detail {
+        background-color: #e7f3ff;
+        color: #007bff;
+        border: 1px solid #cce5ff;
     }
 
-    .payment-alert strong {
-        display: block;
-        margin-bottom: 8px;
-        color: #856404;
+    .btn-pay {
+        background-color: #e8f5e9;
+        color: #28a745;
+        border: 1px solid #c8e6c9;
     }
-
-    /* Styling untuk alert success */
-    .alert-success {
-        background: linear-gradient(to right bottom, #d4edda, #c3e6cb);
-        color: #155724;
-        padding: 15px 20px;
-        border-radius: 8px;
-        margin-bottom: 20px;
-        border-left: 4px solid #28a745;
-        box-shadow: 0 2px 8px rgba(40, 167, 69, 0.2);
-    }
-
-    /* Judul dan subtitel */
-    h1 {
-        color: #343a40;
-        margin-bottom: 25px;
-        font-weight: 700;
-        position: relative;
-        padding-bottom: 10px;
-    }
-
-    h1:after {
-        content: '';
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 80px;
-        height: 4px;
-        background: linear-gradient(to right, #007bff, #6610f2);
-    }
-
-    h2 {
-        color: #343a40;
-        margin: 25px 0 20px;
-        font-weight: 600;
-        font-size: 22px;
-    }
-
-    h3 {
-        color: #495057;
-        margin: 20px 0 15px;
-        font-weight: 600;
-        font-size: 18px;
-    }
-
-    /* Transisi dan animasi */
-    * {
-        transition: color 0.3s ease, background-color 0.3s ease;
+    
+    /* Mobile spacing adjustments */
+    @media (max-width: 767px) {
+        .tracking-container {
+            padding: 12px;
+        }
+        
+        h1 {
+            font-size: 22px;
+        }
+        
+        h2 {
+            font-size: 18px;
+        }
+        
+        .btn-payment, .back-button {
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
     }
 </style>
 
-<h1>Tracking Pesanan</h1>
+<div class="container">
+    <h1>Tracking Pesanan</h1>
 
-<?php if(isset($_SESSION['success'])): ?>
-    <div class="alert alert-success">
-        <?php 
-        echo $_SESSION['success'];
-        unset($_SESSION['success']);
-        ?>
-    </div>
-<?php endif; ?>
-
-<?php if($order_id && $order): ?>
-    <a href="tracking.php" class="back-button">← Kembali ke Semua Pesanan</a>
-    
-    <?php if($order['status_pembayaran'] == 'pending' && $order['metode_pembayaran'] != 'cash' && !$order['bukti_pembayaran']): ?>
-    <div class="payment-alert">
-        <strong>Perhatian!</strong> Silakan lakukan pembayaran untuk memproses pesanan Anda.
-        <a href="pembayaran.php?id=<?php echo $order_id; ?>" class="btn-payment">Lakukan Pembayaran</a>
-    </div>
-    <?php endif; ?>
-    
-    <div class="tracking-container">
-        <h2>Detail Pesanan #<?php echo $order_id; ?></h2>
-        
-        <!-- Status Timeline -->
-        <div class="status-timeline">
-            <?php
-            $status_flow = ['menunggu_konfirmasi', 'diproses', 'selesai', 'siap_diantar'];
-            $current_status_index = array_search($order['status'], $status_flow);
-            
-            if($order['status'] == 'dibatalkan') {
-                echo '<div class="status-item current">';
-                echo '<div class="status-circle">X</div>';
-                echo '<div class="status-name">Dibatalkan</div>';
-                echo '</div>';
-            } else {
-                foreach($status_flow as $index => $status) {
-                    $class = '';
-                    if($index < $current_status_index) {
-                        $class = 'active';
-                    } elseif($index == $current_status_index) {
-                        $class = 'current';
-                    }
-                    
-                    echo '<div class="status-item ' . $class . '">';
-                    echo '<div class="status-circle">' . ($index + 1) . '</div>';
-                    echo '<div class="status-name">' . ucwords(str_replace('_', ' ', $status)) . '</div>';
-                    echo '</div>';
-                }
-            }
+    <?php if(isset($_SESSION['success'])): ?>
+        <div class="alert alert-success">
+            <?php 
+            echo $_SESSION['success'];
+            unset($_SESSION['success']);
             ?>
         </div>
+    <?php endif; ?>
+
+    <?php if($order_id && $order): ?>
+        <a href="tracking.php" class="back-button">← Kembali ke Semua Pesanan</a>
         
-        <div class="detail-grid">
-            <div>
-                <div class="detail-item">
-                    <div class="detail-label">Tanggal Pesanan</div>
-                    <div class="detail-value"><?php echo formatTanggal($order['tgl_order']); ?></div>
-                </div>
-                
-                <div class="detail-item">
-                    <div class="detail-label">Status</div>
-                    <div class="detail-value">
-                        <span class="status-badge status-<?php echo $order['status']; ?>">
-                            <?php echo ucwords(str_replace('_', ' ', $order['status'])); ?>
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="detail-item">
-                    <div class="detail-label">Metode Antar</div>
-                    <div class="detail-value"><?php echo ucfirst(str_replace('_', ' ', $order['metode_antar'])); ?></div>
-                </div>
-            </div>
-            
-            <div>
-                <div class="detail-item">
-                    <div class="detail-label">Total Harga</div>
-                    <div class="detail-value"><?php echo formatRupiah($order['total_harga']); ?></div>
-                </div>
-                
-                <div class="detail-item">
-                    <div class="detail-label">Metode Pembayaran</div>
-                    <div class="detail-value"><?php echo strtoupper($order['metode_pembayaran']); ?></div>
-                </div>
-                
-                <div class="detail-item">
-                    <div class="detail-label">Status Pembayaran</div>
-                    <div class="detail-value">
-                        <span class="status-badge status-<?php echo $order['status_pembayaran']; ?>">
-                            <?php echo ucfirst($order['status_pembayaran']); ?>
-                        </span>
-                    </div>
-                </div>
-                
-                <?php if($order['tgl_selesai']): ?>
-                <div class="detail-item">
-                    <div class="detail-label">Tanggal Selesai</div>
-                    <div class="detail-value"><?php echo formatTanggal($order['tgl_selesai']); ?></div>
-                </div>
-                <?php endif; ?>
-            </div>
-        </div>
-        
-        <h3>Detail Item</h3>
-        <table style="width: 100%; border-collapse: collapse;">
-            <thead>
-                <tr>
-                    <th style="text-align: left; padding: 8px; border-bottom: 2px solid #ddd;">Layanan</th>
-                    <th style="text-align: left; padding: 8px; border-bottom: 2px solid #ddd;">Jenis Pakaian</th>
-                    <th style="text-align: left; padding: 8px; border-bottom: 2px solid #ddd;">Berat</th>
-                    <th style="text-align: right; padding: 8px; border-bottom: 2px solid #ddd;">Subtotal</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while($item = mysqli_fetch_assoc($items_result)): ?>
-                <tr>
-                    <td style="padding: 8px; border-bottom: 1px solid #ddd;"><?php echo $item['nama_layanan']; ?></td>
-                    <td style="padding: 8px; border-bottom: 1px solid #ddd;"><?php echo $item['jenis_pakaian']; ?></td>
-                    <td style="padding: 8px; border-bottom: 1px solid #ddd;"><?php echo $item['berat']; ?> kg</td>
-                    <td style="padding: 8px; border-bottom: 1px solid #ddd; text-align: right;"><?php echo formatRupiah($item['subtotal']); ?></td>
-                </tr>
-                <?php endwhile; ?>
-            </tbody>
-        </table>
-        
-        <div class="payment-info">
-            <h3>Informasi Pembayaran</h3>
-            <p>Metode: <strong><?php echo strtoupper($order['metode_pembayaran']); ?></strong></p>
-            <p>Status: <strong><?php echo ucfirst($order['status_pembayaran']); ?></strong></p>
-            <?php if($order['tgl_pembayaran']): ?>
-            <p>Tanggal Pembayaran: <strong><?php echo formatTanggal($order['tgl_pembayaran']); ?></strong></p>
-            <?php endif; ?>
-            
-            <?php if($order['bukti_pembayaran']): ?>
-            <div class="bukti-container">
-                <p>Bukti Pembayaran:</p>
-                <img src="../uploads/bukti_pembayaran/<?php echo $order['bukti_pembayaran']; ?>" 
-                     alt="Bukti Pembayaran" 
-                     class="bukti-image"
-                     onclick="window.open(this.src, '_blank')">
-            </div>
-            <?php endif; ?>
-            
-            <?php if($order['status_pembayaran'] == 'pending' && $order['metode_pembayaran'] != 'cash' && !$order['bukti_pembayaran']): ?>
+        <?php if($order['status_pembayaran'] == 'pending' && $order['metode_pembayaran'] != 'cash' && !$order['bukti_pembayaran']): ?>
+        <div class="payment-alert">
+            <strong>Perhatian!</strong> Silakan lakukan pembayaran untuk memproses pesanan Anda.
             <a href="pembayaran.php?id=<?php echo $order_id; ?>" class="btn-payment">Lakukan Pembayaran</a>
-            <?php endif; ?>
         </div>
-    </div>
-<?php else: ?>
-    <div class="tracking-container">
-        <h2>Pesanan Aktif</h2>
-        <?php if(mysqli_num_rows($result) > 0): ?>
-            <table style="width: 100%; border-collapse: collapse;">
-                <thead>
-                    <tr>
-                        <th style="text-align: left; padding: 8px; border-bottom: 2px solid #ddd;">ID Pesanan</th>
-                        <th style="text-align: left; padding: 8px; border-bottom: 2px solid #ddd;">Tanggal</th>
-                        <th style="text-align: left; padding: 8px; border-bottom: 2px solid #ddd;">Layanan</th>
-                        <th style="text-align: left; padding: 8px; border-bottom: 2px solid #ddd;">Status</th>
-                        <th style="text-align: left; padding: 8px; border-bottom: 2px solid #ddd;">Pembayaran</th>
-                        <th style="text-align: left; padding: 8px; border-bottom: 2px solid #ddd;">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while($order = mysqli_fetch_assoc($result)): ?>
-                    <tr>
-                        <td style="padding: 8px; border-bottom: 1px solid #ddd;">#<?php echo $order['id']; ?></td>
-                        <td style="padding: 8px; border-bottom: 1px solid #ddd;"><?php echo formatTanggal($order['tgl_order']); ?></td>
-                        <td style="padding: 8px; border-bottom: 1px solid #ddd;"><?php echo $order['nama_layanan']; ?></td>
-                        <td style="padding: 8px; border-bottom: 1px solid #ddd;">
+        <?php endif; ?>
+        
+        <div class="tracking-container">
+            <h2>Detail Pesanan #<?php echo $order_id; ?></h2>
+            
+            <!-- Status Timeline -->
+            <div class="status-timeline">
+                <?php
+                $status_flow = ['menunggu_konfirmasi', 'diproses', 'selesai', 'siap_diantar'];
+                $current_status_index = array_search($order['status'], $status_flow);
+                
+                if($order['status'] == 'dibatalkan') {
+                    echo '<div class="status-item current">';
+                    echo '<div class="status-circle">X</div>';
+                    echo '<div class="status-name">Dibatalkan</div>';
+                    echo '</div>';
+                } else {
+                    foreach($status_flow as $index => $status) {
+                        $class = '';
+                        if($index < $current_status_index) {
+                            $class = 'active';
+                        } elseif($index == $current_status_index) {
+                            $class = 'current';
+                        }
+                        
+                        echo '<div class="status-item ' . $class . '">';
+                        echo '<div class="status-circle">' . ($index + 1) . '</div>';
+                        echo '<div class="status-name">' . ucwords(str_replace('_', ' ', $status)) . '</div>';
+                        echo '</div>';
+                    }
+                }
+                ?>
+            </div>
+            
+            <div class="detail-grid">
+                <div>
+                    <div class="detail-item">
+                        <div class="detail-label">Tanggal Pesanan</div>
+                        <div class="detail-value"><?php echo formatTanggal($order['tgl_order']); ?></div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">Status</div>
+                        <div class="detail-value">
                             <span class="status-badge status-<?php echo $order['status']; ?>">
                                 <?php echo ucwords(str_replace('_', ' ', $order['status'])); ?>
                             </span>
-                        </td>
-                        <td style="padding: 8px; border-bottom: 1px solid #ddd;">
+                        </div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">Metode Antar</div>
+                        <div class="detail-value"><?php echo ucfirst(str_replace('_', ' ', $order['metode_antar'])); ?></div>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="detail-item">
+                        <div class="detail-label">Total Harga</div>
+                        <div class="detail-value"><?php echo formatRupiah($order['total_harga']); ?></div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">Metode Pembayaran</div>
+                        <div class="detail-value"><?php echo strtoupper($order['metode_pembayaran']); ?></div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">Status Pembayaran</div>
+                        <div class="detail-value">
                             <span class="status-badge status-<?php echo $order['status_pembayaran']; ?>">
                                 <?php echo ucfirst($order['status_pembayaran']); ?>
                             </span>
-                        </td>
-                        <td style="padding: 8px; border-bottom: 1px solid #ddd;">
-                            <a href="tracking.php?id=<?php echo $order['id']; ?>" style="color: #007bff; text-decoration: none;">Detail</a>
+                        </div>
+                    </div>
+                    
+                    <?php if($order['tgl_selesai']): ?>
+                    <div class="detail-item">
+                        <div class="detail-label">Tanggal Selesai</div>
+                        <div class="detail-value"><?php echo formatTanggal($order['tgl_selesai']); ?></div>
+                    </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+            
+            <h3>Detail Item</h3>
+            <div class="responsive-table">
+                <table class="item-table">
+                    <thead>
+                        <tr>
+                            <th>Layanan</th>
+                            <th>Jenis Pakaian</th>
+                            <th>Berat</th>
+                            <th style="text-align: right;">Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php while($item = mysqli_fetch_assoc($items_result)): ?>
+                        <tr>
+                            <td><?php echo $item['nama_layanan']; ?></td>
+                            <td><?php echo $item['jenis_pakaian']; ?></td>
+                            <td><?php echo $item['berat']; ?> kg</td>
+                            <td style="text-align: right;"><?php echo formatRupiah($item['subtotal']); ?></td>
+                        </tr>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="payment-info">
+                <h3>Informasi Pembayaran</h3>
+                <p>Metode: <strong><?php echo strtoupper($order['metode_pembayaran']); ?></strong></p>
+                <p>Status: <strong><?php echo ucfirst($order['status_pembayaran']); ?></strong></p>
+                <?php if($order['tgl_pembayaran']): ?>
+                <p>Tanggal Pembayaran: <strong><?php echo formatTanggal($order['tgl_pembayaran']); ?></strong></p>
+                <?php endif; ?>
+                
+                <?php if($order['bukti_pembayaran']): ?>
+                <div class="bukti-container">
+                    <p>Bukti Pembayaran:</p>
+                    <img src="../uploads/bukti_pembayaran/<?php echo $order['bukti_pembayaran']; ?>" 
+                         alt="Bukti Pembayaran" 
+                         class="bukti-image"
+                         onclick="window.open(this.src, '_blank')">
+                </div>
+                <?php endif; ?>
+                
+                <?php if($order['status_pembayaran'] == 'pending' && $order['metode_pembayaran'] != 'cash' && !$order['bukti_pembayaran']): ?>
+                <a href="pembayaran.php?id=<?php echo $order_id; ?>" class="btn-payment">Lakukan Pembayaran</a>
+                <?php endif; ?>
+            </div>
+        </div>
+    <?php else: ?>
+        <div class="tracking-container">
+            <h2>Pesanan Aktif</h2>
+            <?php if(mysqli_num_rows($result) > 0): ?>
+                <div class="order-list">
+                    <?php while($order = mysqli_fetch_assoc($result)): ?>
+                    <div class="order-card">
+                        <div class="order-card-header">
+                            <span class="order-card-id">#<?php echo $order['id']; ?></span>
+                            <span class="order-card-date"><?php echo formatTanggal($order['tgl_order']); ?></span>
+                        </div>
+                        <div class="order-card-content">
+                            <p><strong>Layanan:</strong> <?php echo $order['nama_layanan']; ?></p>
+                            <p>
+                                <strong>Status:</strong> 
+                                <span class="status-badge status-<?php echo $order['status']; ?>">
+                                    <?php echo ucwords(str_replace('_', ' ', $order['status'])); ?>
+                                </span>
+                            </p>
+                            <p>
+                                <strong>Pembayaran:</strong>
+                                <span class="status-badge status-<?php echo $order['status_pembayaran']; ?>">
+                                    <?php echo ucfirst($order['status_pembayaran']); ?>
+                                </span>
+                            </p>
+                        </div>
+                        <div class="order-card-actions">
+                            <a href="tracking.php?id=<?php echo $order['id']; ?>" class="btn-action btn-detail">Detail</a>
                             <?php if($order['status_pembayaran'] == 'pending' && $order['metode_pembayaran'] != 'cash'): ?>
-                                | <a href="pembayaran.php?id=<?php echo $order['id']; ?>" style="color: #28a745; text-decoration: none;">Bayar</a>
+                                <a href="pembayaran.php?id=<?php echo $order['id']; ?>" class="btn-action btn-pay">Bayar</a>
                             <?php endif; ?>
-                        </td>
-                    </tr>
+                        </div>
+                    </div>
                     <?php endwhile; ?>
-                </tbody>
-            </table>
-        <?php else: ?>
-            <p>Tidak ada pesanan aktif saat ini.</p>
-            <a href="buat_pesanan.php" style="color: #007bff; text-decoration: none;">Buat pesanan baru</a>
-        <?php endif; ?>
-    </div>
-<?php endif; ?>
+                </div>
+            <?php else: ?>
+                <p>Tidak ada pesanan aktif saat ini.</p>
+                <a href="buat_pesanan.php" class="btn-payment">Buat pesanan baru</a>
+            <?php endif; ?>
+        </div>
+    <?php endif; ?>
+</div>
 
 <?php include '../includes/footer.php'; ?>

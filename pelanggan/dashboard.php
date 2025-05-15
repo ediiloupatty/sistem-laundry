@@ -1,6 +1,6 @@
 <?php
 // File: pelanggan/dashboard.php
-// Dashboard untuk pelanggan
+// Dashboard untuk pelanggan - Versi mobile-responsive
 
 session_start();
 require_once '../config/koneksi.php';
@@ -53,36 +53,39 @@ include '../includes/header.php';
         --box-shadow: 0 6px 16px rgba(0,0,0,0.1);
         --transition: all 0.25s ease-in-out;
     }
-    
+
     body {
-        background-color: var(--light-gray);
         font-family: 'Nunito', 'Segoe UI', Arial, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background-color: #f8f9fa;
     }
     
     .main-content {
-        padding: 25px;
+        padding: 15px;
+        max-width: 1200px;
+        margin: 0 auto;
     }
     
     .dashboard-header {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 25px;
+        flex-direction: column;
+        margin-bottom: 20px;
     }
     
     .welcome-section {
-        margin-bottom: 30px;
+        margin-bottom: 20px;
     }
     
     .welcome-text {
-        font-size: 28px;
+        font-size: 24px;
         font-weight: 700;
         color: #5a5c69;
-        margin-bottom: 10px;
+        margin-bottom: 5px;
     }
     
     .welcome-subtext {
-        font-size: 16px;
+        font-size: 14px;
         color: var(--dark-gray);
     }
     
@@ -90,9 +93,9 @@ include '../includes/header.php';
     .slideshow-container {
         position: relative;
         width: 100%;
-        height: 250px;
+        height: 200px;
         overflow: hidden;
-        margin-bottom: 30px;
+        margin-bottom: 20px;
         border-radius: var(--border-radius);
         box-shadow: var(--box-shadow);
     }
@@ -111,7 +114,8 @@ include '../includes/header.php';
         flex-direction: column;
         color: white;
         text-align: center;
-        padding: 20px;
+        padding: 15px;
+        box-sizing: border-box;
     }
     
     .slide.active {
@@ -120,31 +124,32 @@ include '../includes/header.php';
     
     .slide-content {
         background-color: rgba(0, 0, 0, 0.6);
-        padding: 20px;
+        padding: 15px;
         border-radius: var(--border-radius);
-        max-width: 80%;
+        max-width: 90%;
     }
     
     .slide-title {
-        font-size: 24px;
+        font-size: 20px;
         font-weight: 700;
-        margin-bottom: 10px;
+        margin-bottom: 8px;
     }
     
     .slide-description {
-        font-size: 16px;
-        margin-bottom: 15px;
+        font-size: 14px;
+        margin-bottom: 12px;
     }
     
     .slide-button {
         background-color: var(--primary-color);
         color: white;
         border: none;
-        padding: 8px 20px;
+        padding: 8px 16px;
         border-radius: 4px;
         font-weight: 600;
         cursor: pointer;
         transition: var(--transition);
+        font-size: 14px;
     }
     
     .slide-button:hover {
@@ -153,17 +158,17 @@ include '../includes/header.php';
     
     .slide-indicators {
         position: absolute;
-        bottom: 20px;
+        bottom: 15px;
         left: 0;
         right: 0;
         display: flex;
         justify-content: center;
-        gap: 10px;
+        gap: 8px;
     }
     
     .indicator {
-        width: 12px;
-        height: 12px;
+        width: 10px;
+        height: 10px;
         background-color: rgba(255, 255, 255, 0.5);
         border-radius: 50%;
         cursor: pointer;
@@ -178,14 +183,14 @@ include '../includes/header.php';
     /* Dashboard stats cards */
     .dashboard-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 25px;
-        margin-bottom: 30px;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 15px;
+        margin-bottom: 20px;
     }
     
     .dashboard-card {
         background: white;
-        padding: 20px;
+        padding: 15px;
         border-radius: var(--border-radius);
         box-shadow: var(--box-shadow);
         transition: var(--transition);
@@ -195,29 +200,29 @@ include '../includes/header.php';
     }
     
     .dashboard-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
     }
     
     .dashboard-card h3 {
-        margin: 0 0 10px 0;
+        margin: 0 0 8px 0;
         color: var(--dark-gray);
-        font-size: 16px;
+        font-size: 14px;
         font-weight: 600;
         text-transform: uppercase;
     }
     
     .dashboard-card .value {
-        font-size: 28px;
+        font-size: 22px;
         font-weight: 700;
         color: #5a5c69;
     }
     
     .dashboard-card .icon {
         position: absolute;
-        top: 20px;
-        right: 20px;
-        font-size: 24px;
+        top: 15px;
+        right: 15px;
+        font-size: 20px;
         color: var(--mid-gray);
     }
     
@@ -239,65 +244,74 @@ include '../includes/header.php';
     
     .btn {
         display: inline-block;
-        padding: 12px 24px;
+        width: 100%;
+        padding: 10px 20px;
         background-color: var(--primary-color);
         color: white;
         text-decoration: none;
         border-radius: var(--border-radius);
-        margin-bottom: 20px;
+        margin-bottom: 15px;
         font-weight: 600;
         transition: var(--transition);
-        box-shadow: 0 2px 10px rgba(78, 115, 223, 0.3);
+        box-shadow: 0 2px 8px rgba(78, 115, 223, 0.3);
         border: none;
         cursor: pointer;
+        text-align: center;
+        font-size: 14px;
+        box-sizing: border-box;
     }
     
     .btn:hover {
         background-color: var(--primary-dark);
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(78, 115, 223, 0.4);
+        box-shadow: 0 4px 10px rgba(78, 115, 223, 0.4);
     }
     
     /* Recent orders table */
     .orders-section {
         background-color: white;
-        padding: 25px;
+        padding: 15px;
         border-radius: var(--border-radius);
         box-shadow: var(--box-shadow);
-        margin-bottom: 30px;
+        margin-bottom: 20px;
+        overflow-x: auto; /* Enable horizontal scrolling for tables on mobile */
     }
     
     .section-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 20px;
+        margin-bottom: 15px;
+        flex-wrap: wrap; /* Allow wrapping on very small screens */
     }
     
     .section-title {
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 700;
         color: #5a5c69;
         margin: 0;
+        margin-bottom: 5px;
     }
     
     table {
         width: 100%;
         border-collapse: collapse;
-        margin-top: 15px;
+        margin-top: 10px;
+        min-width: 600px; /* Ensure table has a minimum width */
     }
     
     th, td {
-        padding: 15px;
+        padding: 12px 10px;
         text-align: left;
         border-bottom: 1px solid var(--mid-gray);
+        font-size: 14px;
     }
     
     th {
         background-color: var(--light-gray);
         font-weight: 600;
         color: var(--dark-gray);
-        font-size: 14px;
+        font-size: 13px;
         text-transform: uppercase;
     }
     
@@ -306,11 +320,12 @@ include '../includes/header.php';
     }
     
     .status-badge {
-        padding: 6px 12px;
+        padding: 4px 8px;
         border-radius: 20px;
-        font-size: 12px;
+        font-size: 11px;
         font-weight: 600;
         text-transform: uppercase;
+        white-space: nowrap;
     }
     
     .status-menunggu_konfirmasi {
@@ -343,7 +358,9 @@ include '../includes/header.php';
         text-decoration: none;
         font-weight: 600;
         transition: var(--transition);
-        margin-right: 10px;
+        margin-right: 8px;
+        font-size: 13px;
+        white-space: nowrap;
     }
     
     .action-link:hover {
@@ -368,14 +385,81 @@ include '../includes/header.php';
         animation: fadeIn 0.5s ease-in-out;
     }
     
-    /* Responsiveness */
+    /* Mobile-specific styling */
     @media (max-width: 768px) {
-        .dashboard-grid {
-            grid-template-columns: 1fr;
+        .main-content {
+            padding: 10px;
+        }
+        
+        .dashboard-header {
+            flex-direction: column;
+        }
+        
+        .welcome-text {
+            font-size: 20px;
+        }
+        
+        .welcome-subtext {
+            font-size: 13px;
         }
         
         .slideshow-container {
-            height: 200px;
+            height: 180px;
+        }
+        
+        .slide-title {
+            font-size: 18px;
+        }
+        
+        .slide-description {
+            font-size: 13px;
+        }
+        
+        .dashboard-card .value {
+            font-size: 20px;
+        }
+        
+        /* Table responsiveness for very small screens */
+        .table-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+    }
+    
+    /* Tablet and larger phones */
+    @media (min-width: 576px) {
+        .dashboard-header {
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .btn {
+            width: auto;
+            margin-bottom: 0;
+        }
+    }
+    
+    /* Medium devices and up */
+    @media (min-width: 768px) {
+        .main-content {
+            padding: 20px;
+        }
+        
+        .welcome-text {
+            font-size: 24px;
+        }
+        
+        .slideshow-container {
+            height: 220px;
+        }
+        
+        .dashboard-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        
+        .dashboard-card {
+            padding: 20px;
         }
     }
 </style>
@@ -393,7 +477,7 @@ include '../includes/header.php';
     
     <!-- Slideshow Container -->
     <div class="slideshow-container">
-        <div class="slide active" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('assets/images/slide1.jpg');">
+        <div class="slide active" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('../assets/images/slide1.jpg');">
             <div class="slide-content">
                 <h2 class="slide-title">Layanan Laundry Terbaik</h2>
                 <p class="slide-description">Nikmati layanan laundry profesional dengan hasil terbaik</p>
@@ -401,7 +485,7 @@ include '../includes/header.php';
             </div>
         </div>
         
-        <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('assets/images/slide2.jpg');">
+        <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('../assets/images/slide2.jpg');">
             <div class="slide-content">
                 <h2 class="slide-title">Promo Spesial</h2>
                 <p class="slide-description">Dapatkan diskon 20% untuk pelanggan baru</p>
@@ -409,7 +493,7 @@ include '../includes/header.php';
             </div>
         </div>
         
-        <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('assets/images/slide3.jpg');">
+        <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('../assets/images/slide3.jpg');">
             <div class="slide-content">
                 <h2 class="slide-title">Layanan Antar Jemput</h2>
                 <p class="slide-description">Tersedia layanan antar jemput untuk area tertentu</p>
@@ -450,47 +534,49 @@ include '../includes/header.php';
             <a href="semua_pesanan.php" class="action-link">Lihat Semua</a>
         </div>
         
-        <table>
-            <thead>
-                <tr>
-                    <th>ID Pesanan</th>
-                    <th>Tanggal</th>
-                    <th>Total</th>
-                    <th>Status</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if(mysqli_num_rows($result_latest) > 0): ?>
-                    <?php while($order = mysqli_fetch_assoc($result_latest)): ?>
+        <div class="table-container">
+            <table>
+                <thead>
                     <tr>
-                        <td>#<?php echo $order['id']; ?></td>
-                        <td><?php echo formatTanggal($order['tgl_order']); ?></td>
-                        <td><?php echo formatRupiah($order['total_harga']); ?></td>
-                        <td>
-                            <span class="status-badge status-<?php echo $order['status']; ?>">
-                                <?php echo ucwords(str_replace('_', ' ', $order['status'])); ?>
-                            </span>
-                        </td>
-                        <td>
-                            <a href="tracking.php?id=<?php echo $order['id']; ?>" class="action-link">
-                                <i class="fas fa-search"></i> Detail
-                            </a>
-                            <?php if($order['status'] == 'selesai'): ?>
-                                <a href="invoice.php?id=<?php echo $order['id']; ?>" class="action-link success">
-                                    <i class="fas fa-file-invoice"></i> Invoice
+                        <th>ID</th>
+                        <th>Tanggal</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if(mysqli_num_rows($result_latest) > 0): ?>
+                        <?php while($order = mysqli_fetch_assoc($result_latest)): ?>
+                        <tr>
+                            <td>#<?php echo $order['id']; ?></td>
+                            <td><?php echo formatTanggal($order['tgl_order']); ?></td>
+                            <td><?php echo formatRupiah($order['total_harga']); ?></td>
+                            <td>
+                                <span class="status-badge status-<?php echo $order['status']; ?>">
+                                    <?php echo ucwords(str_replace('_', ' ', $order['status'])); ?>
+                                </span>
+                            </td>
+                            <td>
+                                <a href="tracking.php?id=<?php echo $order['id']; ?>" class="action-link">
+                                    <i class="fas fa-search"></i> Detail
                                 </a>
-                            <?php endif; ?>
-                        </td>
-                    </tr>
-                    <?php endwhile; ?>
-                <?php else: ?>
-                    <tr>
-                        <td colspan="5" style="text-align: center;">Belum ada pesanan</td>
-                    </tr>
-                <?php endif; ?>
-            </tbody>
-        </table>
+                                <?php if($order['status'] == 'selesai'): ?>
+                                    <a href="invoice.php?id=<?php echo $order['id']; ?>" class="action-link success">
+                                        <i class="fas fa-file-invoice"></i> Invoice
+                                    </a>
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+                        <?php endwhile; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="5" style="text-align: center;">Belum ada pesanan</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
@@ -540,6 +626,11 @@ include '../includes/header.php';
     document.addEventListener("DOMContentLoaded", function() {
         showSlide(slideIndex);
         startSlideShow();
+        
+        // Check for mobile devices and adjust image paths if needed
+        if (window.innerWidth < 768) {
+            // You could load smaller images for mobile if needed
+        }
     });
 </script>
 

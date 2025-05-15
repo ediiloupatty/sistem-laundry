@@ -79,32 +79,52 @@ include '../includes/header.php';
 ?>
 
 <style>
+    /* Responsive styling */
+    * {
+        box-sizing: border-box;
+    }
+    
+    .container {
+        width: 100%;
+        max-width: 1200px;
+        padding: 0 15px;
+        margin: 0 auto;
+    }
+    
     .filter-container {
         background: white;
         padding: 20px;
         border-radius: 8px;
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         margin-bottom: 20px;
+        width: 100%;
+        overflow-x: hidden;
     }
+    
     .filter-form {
         display: flex;
+        flex-wrap: wrap;
         gap: 15px;
-        align-items: flex-end;
     }
+    
     .form-group {
-        flex: 1;
+        flex: 1 0 200px;
+        margin-bottom: 10px;
     }
+    
     .form-group label {
         display: block;
         margin-bottom: 5px;
         font-weight: bold;
     }
+    
     .form-control {
         width: 100%;
         padding: 8px;
         border: 1px solid #ddd;
         border-radius: 4px;
     }
+    
     .btn {
         padding: 8px 15px;
         background-color: #007bff;
@@ -112,53 +132,81 @@ include '../includes/header.php';
         border: none;
         border-radius: 4px;
         cursor: pointer;
+        margin-bottom: 10px;
+        text-decoration: none;
+        display: inline-block;
     }
+    
     .btn:hover {
         background-color: #0056b3;
     }
+    
     .btn-secondary {
         background-color: #6c757d;
     }
+    
     .btn-secondary:hover {
         background-color: #5a6268;
     }
+    
+    /* Table Responsive */
+    .table-responsive {
+        overflow-x: auto;
+        width: 100%;
+        -webkit-overflow-scrolling: touch;
+    }
+    
     table {
         width: 100%;
         border-collapse: collapse;
         background: white;
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        min-width: 600px; /* Memastikan lebar minimal tabel */
     }
+    
     th, td {
         padding: 12px;
         text-align: left;
         border-bottom: 1px solid #ddd;
     }
+    
     th {
         background-color: #f8f9fa;
         font-weight: bold;
     }
+    
     .status-badge {
         padding: 5px 10px;
         border-radius: 15px;
         font-size: 12px;
         font-weight: bold;
+        white-space: nowrap;
     }
+    
     .status-menunggu_konfirmasi { background-color: #ffc107; color: #000; }
     .status-diproses { background-color: #17a2b8; color: #fff; }
     .status-selesai { background-color: #28a745; color: #fff; }
     .status-siap_diantar { background-color: #6f42c1; color: #fff; }
     .status-dibatalkan { background-color: #dc3545; color: #fff; }
+    
     .action-buttons {
         display: flex;
         gap: 5px;
+        flex-wrap: wrap;
     }
+    
     .btn-action {
         padding: 5px 10px;
         font-size: 12px;
         text-decoration: none;
+        white-space: nowrap;
+        margin-bottom: 5px;
     }
+    
     .btn-detail { background-color: #007bff; color: white; }
     .btn-edit { background-color: #ffc107; color: #000; }
+    
+    /* Modal Styling */
     .modal {
         display: none;
         position: fixed;
@@ -169,99 +217,139 @@ include '../includes/header.php';
         height: 100%;
         background-color: rgba(0,0,0,0.5);
     }
+    
     .modal-content {
         background-color: white;
-        margin: 15% auto;
+        margin: 10% auto;
         padding: 20px;
         border-radius: 8px;
         width: 90%;
         max-width: 500px;
     }
+    
+    /* Responsive pada layar kecil */
+    @media (max-width: 768px) {
+        .filter-form {
+            flex-direction: column;
+        }
+        
+        .form-group {
+            flex: 1 0 100%;
+        }
+        
+        .modal-content {
+            margin: 5% auto;
+            width: 95%;
+        }
+    }
+    
+    /* Notifikasi alert */
+    .alert {
+        padding: 15px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+    }
+    
+    .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+    }
+    
+    .alert-error {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
 </style>
 
-<h1>Daftar Pesanan</h1>
+<div class="container">
+    <h1>Daftar Pesanan</h1>
 
-<?php if(isset($success)): ?>
-    <div class="alert alert-success"><?php echo $success; ?></div>
-<?php endif; ?>
+    <?php if(isset($success)): ?>
+        <div class="alert alert-success"><?php echo $success; ?></div>
+    <?php endif; ?>
 
-<?php if(isset($error)): ?>
-    <div class="alert alert-error"><?php echo $error; ?></div>
-<?php endif; ?>
+    <?php if(isset($error)): ?>
+        <div class="alert alert-error"><?php echo $error; ?></div>
+    <?php endif; ?>
 
-<div class="filter-container">
-    <form method="GET" class="filter-form">
-        <div class="form-group">
-            <label>Status:</label>
-            <select name="status" class="form-control">
-                <option value="">Semua Status</option>
-                <option value="menunggu_konfirmasi" <?php echo $status_filter == 'menunggu_konfirmasi' ? 'selected' : ''; ?>>Menunggu Konfirmasi</option>
-                <option value="diproses" <?php echo $status_filter == 'diproses' ? 'selected' : ''; ?>>Diproses</option>
-                <option value="selesai" <?php echo $status_filter == 'selesai' ? 'selected' : ''; ?>>Selesai</option>
-                <option value="siap_diantar" <?php echo $status_filter == 'siap_diantar' ? 'selected' : ''; ?>>Siap Diantar</option>
-                <option value="dibatalkan" <?php echo $status_filter == 'dibatalkan' ? 'selected' : ''; ?>>Dibatalkan</option>
-            </select>
-        </div>
-        
-        <div class="form-group">
-            <label>Tanggal:</label>
-            <input type="date" name="date" class="form-control" value="<?php echo $date_filter; ?>">
-        </div>
-        
-        <div class="form-group">
-            <label>Cari:</label>
-            <input type="text" name="search" class="form-control" placeholder="Nama pelanggan atau ID pesanan" value="<?php echo $search; ?>">
-        </div>
-        
-        <button type="submit" class="btn">Filter</button>
-        <a href="daftar_pesanan.php" class="btn btn-secondary">Reset</a>
-    </form>
+    <div class="filter-container">
+        <form method="GET" class="filter-form">
+            <div class="form-group">
+                <label>Status:</label>
+                <select name="status" class="form-control">
+                    <option value="">Semua Status</option>
+                    <option value="menunggu_konfirmasi" <?php echo $status_filter == 'menunggu_konfirmasi' ? 'selected' : ''; ?>>Menunggu Konfirmasi</option>
+                    <option value="diproses" <?php echo $status_filter == 'diproses' ? 'selected' : ''; ?>>Diproses</option>
+                    <option value="selesai" <?php echo $status_filter == 'selesai' ? 'selected' : ''; ?>>Selesai</option>
+                    <option value="siap_diantar" <?php echo $status_filter == 'siap_diantar' ? 'selected' : ''; ?>>Siap Diantar</option>
+                    <option value="dibatalkan" <?php echo $status_filter == 'dibatalkan' ? 'selected' : ''; ?>>Dibatalkan</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Tanggal:</label>
+                <input type="date" name="date" class="form-control" value="<?php echo $date_filter; ?>">
+            </div>
+            
+            <div class="form-group">
+                <label>Cari:</label>
+                <input type="text" name="search" class="form-control" placeholder="Nama pelanggan atau ID pesanan" value="<?php echo $search; ?>">
+            </div>
+            
+            <div class="form-group">
+                <button type="submit" class="btn">Filter</button>
+                <a href="daftar_pesanan.php" class="btn btn-secondary">Reset</a>
+            </div>
+        </form>
+    </div>
+
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Pelanggan</th>
+                    <th>Tanggal</th>
+                    <th>Total</th>
+                    <th>Metode</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if(mysqli_num_rows($result) > 0): ?>
+                    <?php while($order = mysqli_fetch_assoc($result)): ?>
+                    <tr>
+                        <td>#<?php echo $order['id']; ?></td>
+                        <td>
+                            <?php echo $order['nama_pelanggan']; ?><br>
+                            <small><?php echo $order['no_hp']; ?></small>
+                        </td>
+                        <td><?php echo formatTanggal($order['tgl_order']); ?></td>
+                        <td><?php echo formatRupiah($order['total_harga']); ?></td>
+                        <td><?php echo ucfirst(str_replace('_', ' ', $order['metode_antar'])); ?></td>
+                        <td>
+                            <span class="status-badge status-<?php echo $order['status']; ?>">
+                                <?php echo ucwords(str_replace('_', ' ', $order['status'])); ?>
+                            </span>
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <a href="kelola_pesanan.php?id=<?php echo $order['id']; ?>" class="btn-action btn-detail">Detail</a>
+                                <button onclick="openUpdateModal('<?php echo $order['id']; ?>', '<?php echo $order['status']; ?>')" class="btn-action btn-edit">Update</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="7" style="text-align: center;">Tidak ada pesanan ditemukan</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
 </div>
-
-<table>
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Pelanggan</th>
-            <th>Tanggal</th>
-            <th>Total</th>
-            <th>Metode</th>
-            <th>Status</th>
-            <th>Aksi</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php if(mysqli_num_rows($result) > 0): ?>
-            <?php while($order = mysqli_fetch_assoc($result)): ?>
-            <tr>
-                <td>#<?php echo $order['id']; ?></td>
-                <td>
-                    <?php echo $order['nama_pelanggan']; ?><br>
-                    <small><?php echo $order['no_hp']; ?></small>
-                </td>
-                <td><?php echo formatTanggal($order['tgl_order']); ?></td>
-                <td><?php echo formatRupiah($order['total_harga']); ?></td>
-                <td><?php echo ucfirst(str_replace('_', ' ', $order['metode_antar'])); ?></td>
-                <td>
-                    <span class="status-badge status-<?php echo $order['status']; ?>">
-                        <?php echo ucwords(str_replace('_', ' ', $order['status'])); ?>
-                    </span>
-                </td>
-                <td>
-                    <div class="action-buttons">
-                        <a href="kelola_pesanan.php?id=<?php echo $order['id']; ?>" class="btn-action btn-detail">Detail</a>
-                        <button onclick="openUpdateModal('<?php echo $order['id']; ?>', '<?php echo $order['status']; ?>')" class="btn-action btn-edit">Update</button>
-                    </div>
-                </td>
-            </tr>
-            <?php endwhile; ?>
-        <?php else: ?>
-            <tr>
-                <td colspan="7" style="text-align: center;">Tidak ada pesanan ditemukan</td>
-            </tr>
-        <?php endif; ?>
-    </tbody>
-</table>
 
 <!-- Modal Update Status -->
 <div id="updateModal" class="modal">
