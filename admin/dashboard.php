@@ -54,8 +54,13 @@ include '../includes/header.php';
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center dashboard-header">
                 <h1 class="dashboard-title">Dashboard Admin</h1>
-                <div class="d-none d-md-block">
-                    <span class="current-date"><?php echo date('l, d F Y'); ?></span>
+                <div class="admin-actions">
+                    <a href="kelola_pengguna.php" class="btn btn-primary mr-2">
+                        <i class="fas fa-users-cog mr-1"></i> Kelola Pengguna
+                    </a>
+                    <div class="d-none d-md-inline-block">
+                        <span class="current-date"><?php echo date('l, d F Y'); ?></span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -107,6 +112,29 @@ include '../includes/header.php';
                     <h3>Total Pelanggan</h3>
                     <div class="value"><?php echo $total_customers; ?></div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="admin-quick-actions">
+                <a href="kelola_pesanan.php" class="quick-action-btn">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>Kelola Pesanan</span>
+                </a>
+                <a href="kelola_produk.php" class="quick-action-btn">
+                    <i class="fas fa-box"></i>
+                    <span>Kelola Produk</span>
+                </a>
+                <a href="kelola_pengguna.php" class="quick-action-btn">
+                    <i class="fas fa-users-cog"></i>
+                    <span>Kelola Pengguna</span>
+                </a>
+                <a href="laporan.php" class="quick-action-btn">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Laporan</span>
+                </a>
             </div>
         </div>
     </div>
@@ -186,6 +214,52 @@ include '../includes/header.php';
     .current-date {
         color: #6c757d;
         font-size: 0.9rem;
+        margin-left: 15px;
+    }
+    
+    .admin-actions {
+        display: flex;
+        align-items: center;
+    }
+    
+    .admin-quick-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+    
+    .quick-action-btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: white;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        text-decoration: none;
+        color: #495057;
+        min-width: 140px;
+        text-align: center;
+    }
+    
+    .quick-action-btn:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        color: #007bff;
+        text-decoration: none;
+    }
+    
+    .quick-action-btn i {
+        font-size: 1.5rem;
+        margin-bottom: 8px;
+        color: #007bff;
+    }
+    
+    .quick-action-btn span {
+        font-weight: 500;
     }
     
     .dashboard-card {
@@ -350,6 +424,17 @@ include '../includes/header.php';
             font-size: 1.5rem;
         }
         
+        .admin-actions {
+            flex-direction: column;
+            align-items: flex-start;
+            margin-top: 10px;
+        }
+        
+        .current-date {
+            margin-left: 0;
+            margin-top: 10px;
+        }
+        
         .dashboard-card {
             padding: 1rem;
         }
@@ -371,6 +456,14 @@ include '../includes/header.php';
         .status-badge {
             padding: 0.25rem 0.5rem;
             font-size: 0.7rem;
+        }
+        
+        .admin-quick-actions {
+            justify-content: center;
+        }
+        
+        .quick-action-btn {
+            min-width: 120px;
         }
     }
     

@@ -477,7 +477,7 @@ include '../includes/header.php';
     
     <!-- Slideshow Container -->
     <div class="slideshow-container">
-        <div class="slide active" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('../assets/images/slide1.jpg');">
+        <div class="slide active" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('./assets/images/slide1.jpg');">
             <div class="slide-content">
                 <h2 class="slide-title">Layanan Laundry Terbaik</h2>
                 <p class="slide-description">Nikmati layanan laundry profesional dengan hasil terbaik</p>
@@ -485,7 +485,7 @@ include '../includes/header.php';
             </div>
         </div>
         
-        <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('../assets/images/slide2.jpg');">
+        <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('./assets/images/slide2.jpg');">
             <div class="slide-content">
                 <h2 class="slide-title">Promo Spesial</h2>
                 <p class="slide-description">Dapatkan diskon 20% untuk pelanggan baru</p>
@@ -493,7 +493,7 @@ include '../includes/header.php';
             </div>
         </div>
         
-        <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('../assets/images/slide3.jpg');">
+        <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('./assets/images/slide3.jpg');">
             <div class="slide-content">
                 <h2 class="slide-title">Layanan Antar Jemput</h2>
                 <p class="slide-description">Tersedia layanan antar jemput untuk area tertentu</p>
